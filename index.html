@@ -37,6 +37,9 @@
                             <a class="btn btn-primary btn-lg qa-previous" href="#">
                                 上一題
                             </a>
+                            <a class="btn btn-primary btn-lg qa-jump" href="#">
+                                跳題
+                            </a>
                             <a class="btn btn-primary btn-lg qa-next" href="#">
                                 下一題
                             </a>
@@ -78,6 +81,12 @@
             if(currentIndex >= total) {
               currentIndex = 0;
             }
+            showQuiz();
+            return false;
+          });
+          $('.qa-jump').click(function() {
+            currentIndex = window.prompt('輸入 1-' + total + ' 數字');
+            currentIndex = parseInt(currentIndex) - 1;
             showQuiz();
             return false;
           });
