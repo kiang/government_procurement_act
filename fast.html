@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>政府採購法105基礎班線上測驗</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <meta property="og:title" content="政府採購法105基礎班線上測驗">
+        <meta property="og:description" content="以 105/05/16 產出的題庫為基礎，提供線上題庫練習">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="http://kiang.github.io/government_procurement_act/og_image.png">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <style>
+        input[type='radio'] { transform: scale(2); }
+        </style>
+    </head>
+    <body>
+      <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=1393405437614114&version=v2.3";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, "script", "facebook-jssdk"));
+        </script>
+        <div class="container">
+            <div class="row">
+                <p class="hidden-sm hidden-xs">&nbsp;</p>
+                <h1 id="qa-quiz" class="col-md-12"></h1>
+                <div id="qa-answer" class="col-md-12" style="font-size: 20pt;"></div>
+                <h1 id="qa-result" class="col-md-12" style="color: red;"></h1>
+                <div id="detail" class="col-md-12">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <div class="btn-group btn-group-justified">
+                            <a class="btn btn-primary btn-lg qa-previous" href="#">
+                                上一題
+                            </a>
+                            <a class="btn btn-primary btn-lg qa-jump" href="#">
+                                跳題
+                            </a>
+                            <a class="btn btn-primary btn-lg qa-next" href="#">
+                                下一題
+                            </a>
+                        </div>
+                        <div class="col-md-12" id="qa-status"></div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <p>&nbsp;</p>
+                        <div id="fb-root"></div>
+                        <div class="fb-page" data-href="https://www.facebook.com/k.olc.tw" data-width="800" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="https://github.com/kiang/government_procurement_act" target="_blank">網站原始碼</a> |
+                資料來源：105基礎班學員手冊教材題庫</a>
+            </div>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script>
+        var currentIndex = 0, qa = [], total = 0;
+        $(function() {
+          $.getJSON('qa.json', {}, function(r) {
+            qa = r;
+            total = qa.length;
+            showQuiz();
+          });
+          $('.qa-previous').click(function() {
+            currentIndex -= 1;
+            if(currentIndex < 0) {
+              currentIndex = total - 1;
+            }
+            showQuiz();
+            return false;
+          });
+          $('.qa-next').click(function() {
+            currentIndex += 1;
+            if(currentIndex >= total) {
+              currentIndex = 0;
+            }
+            showQuiz();
+            return false;
+          });
+          $('.qa-jump').click(function() {
+            currentIndex = window.prompt('輸入 1-' + total + ' 數字');
+            currentIndex = parseInt(currentIndex) - 1;
+            showQuiz();
+            return false;
+          });
+        })
+        function showQuiz() {
+          $('#qa-result').html('');
+          $('#qa-quiz').html(qa[currentIndex].quiz);
+          var answers = '';
+          for(k in qa[currentIndex].options) {
+            if(qa[currentIndex].answer == k) {
+              answers += '<label class="radio-inline" style="color: red;"><input name="answer" class="qa-options" type="radio" value="' + k + '" />' + ' &nbsp; ' + qa[currentIndex].options[k] + '</label><br />';
+            } else {
+              answers += '<label class="radio-inline"><input name="answer" class="qa-options" type="radio" value="' + k + '" />' + ' &nbsp; ' + qa[currentIndex].options[k] + '</label><br />';
+            }
+          }
+          $('#qa-answer').html(answers);
+          $('input.qa-options').change(function() {
+            $('.qa-next').trigger('click');
+          });
+          $('div#qa-status').html('第 ' + (currentIndex + 1) + ' 題 / 共 ' + total + ' 題');
+        }
+        </script>
+    </body>
+</html>
