@@ -4,28 +4,28 @@ $lines = explode("\n", $f);
 $headerBegin = false;
 $headerCount = 0;
 $header = $quiz = $qa = array();
-foreach($lines AS $line) {
-  if(substr($line, -3) === '題' && strlen($line) === 9) {
+foreach ($lines as $line) {
+  if (substr($line, -3) === '題' && strlen($line) === 9) {
     $headerBegin = true;
     $header = $quiz = array();
     $headerCount = 0;
-  } elseif($headerBegin) {
-    if($line == 1) {
+  } elseif ($headerBegin) {
+    if ($line == 1) {
       $headerCount = count($header);
       $headerBegin = false;
     } else {
       $header[] = trim($line);
     }
   }
-  if(!$headerBegin && $headerCount > 0) {
-    if(count($quiz) < $headerCount) {
+  if (!$headerBegin && $headerCount > 0) {
+    if (count($quiz) < $headerCount) {
       $quiz[] = $line;
     } else {
       $lineQuiz = array_combine($header, $quiz);
-      if(isset($lineQuiz['依據法源'])) {
+      if (isset($lineQuiz['依據法源'])) {
         $lineQuiz['試題'] = "({$lineQuiz['依據法源']}){$lineQuiz['試題']}";
       }
-      switch($lineQuiz['答案']) {
+      switch ($lineQuiz['答案']) {
         case 'O':
         case 'X':
           $qa[] = array(
