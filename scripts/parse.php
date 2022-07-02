@@ -1,5 +1,5 @@
 <?php
-$f = file_get_contents(__DIR__ . '/base.txt');
+$f = file_get_contents(dirname(__DIR__) . '/raw/base.txt');
 $lines = explode("\n", $f);
 $headerBegin = false;
 $headerCount = 0;
@@ -52,4 +52,4 @@ foreach ($lines as $line) {
     }
   }
 }
-file_put_contents(__DIR__ . '/qa.json', json_encode($qa, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+file_put_contents(dirname(__DIR__) . '/qa.json', json_encode($qa, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
